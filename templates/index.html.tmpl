@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <meta content="Monsterindeks.no sporer daglige priser på Monster Energy og viser data i en graf." name="description"/>
+    <meta content="Monsterindeks.no sporer daglige priser på Monster Energy og viser data i en graf."
+          name="description"/>
     <meta content="notranslate" name="googlebot"/>
     <meta content="nopagereadaloud" name="google"/>
     <title>Monster Indeks</title>
@@ -67,6 +68,14 @@
                         color: '#ffffff'
                     }
                 },
+                tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        const date = new Date(context.label);
+                        return `Date: ${date.toISOString().split('T')[0]}, Price: ${context.raw}`;
+                    }
+                }
+            }
             },
             scales: {
                 x: {
