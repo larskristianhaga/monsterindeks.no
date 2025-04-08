@@ -7,7 +7,7 @@ on:
 jobs:
   insert-the-latest-monster-prices:
     name: "Insert the latest monster prices"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
 
     steps:
       - name: "Insert the latest monster prices"

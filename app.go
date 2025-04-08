@@ -33,7 +33,6 @@ func main() {
 	http.HandleFunc("/insert-latest-monster-price", InsertLatestMonsterPriceHandler)
 	http.HandleFunc("/get-latest-monster-price", GetLatestMonsterPriceHandler)
 	http.HandleFunc("/get-raw-data", GetRawDataHandler)
-	http.HandleFunc("/ping", PingHandler)
 	http.HandleFunc("/health", HealthHandler)
 	http.HandleFunc("/robots.txt", RobotsHandler)
 	http.HandleFunc("/sitemap.xml", SitemapHandler)
@@ -123,10 +122,6 @@ func GetRawDataHandler(w http.ResponseWriter, _ *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	_ = json.NewEncoder(w).Encode(records)
-}
-
-func PingHandler(w http.ResponseWriter, _ *http.Request) {
-	_, _ = w.Write([]byte("pong"))
 }
 
 func HealthHandler(w http.ResponseWriter, _ *http.Request) {
