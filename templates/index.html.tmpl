@@ -42,8 +42,7 @@
 <script>
     const data = {{.}};
 
-    // Format timestamps to show only the date
-    const timestamps = data.map(point => new Date(point.created_at).toISOString().split('T')[0]);
+    const timestamps = data.map(point => point.created_at);
     const prices = data.map(point => point.gross_price);
 
     const ctx = document.getElementById('priceChart').getContext('2d');
