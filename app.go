@@ -1,6 +1,7 @@
 package main
 
 import (
+    "fmt"
 	"crypto/tls"
 	"database/sql"
 	"embed"
@@ -130,22 +131,20 @@ func HealthHandler(w http.ResponseWriter, _ *http.Request) {
 
 func RobotsHandler(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
+	fmt.Fprint(w, `User-agent: *
+Allow: /
 
-	data := map[string]string{
-		"URL": domain + "/sitemap.xml",
-	}
-
-	_ = t.ExecuteTemplate(w, "robots.txt.tmpl", data)
+Sitemap: `+domain+`/sitemap.xml`)
 }
 
 func SitemapHandler(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Set("Content-Type", "application/xml")
-
-	data := map[string]string{
-		"URL": domain,
-	}
-
-	_ = t.ExecuteTemplate(w, "sitemap.xml.tmpl", data)
+	fmt.Fprint(w, `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>`+domain+`</loc>
+    </url>
+</urlset>`)
 }
 
 func getMonsterData() Monster {
