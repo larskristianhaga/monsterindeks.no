@@ -43,7 +43,8 @@
 <script>
     const data = {{.}};
 
-    const timestamps = data.map(point => point.created_at);
+    // Format timestamps to show only the date
+    const timestamps = data.map(point => new Date(point.created_at).toISOString().split('T')[0]);
     const prices = data.map(point => point.gross_price);
 
     const ctx = document.getElementById('priceChart').getContext('2d');
@@ -69,13 +70,13 @@
                     }
                 },
                 tooltip: {
-                callbacks: {
-                    label: function(context) {
-                        const date = new Date(context.label);
-                        return `Date: ${date.toISOString().split('T')[0]}, Price: ${context.raw}`;
+                    callbacks: {
+                        label: function(context) {
+                            const date = new Date(context.label);
+                            return `Date: ${date.toISOString().split('T')[0]}, Price: ${context.raw}`;
+                        }
                     }
                 }
-            }
             },
             scales: {
                 x: {
