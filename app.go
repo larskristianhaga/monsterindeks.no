@@ -176,9 +176,7 @@ func HealthHandler(w http.ResponseWriter, _ *http.Request) {
 func RobotsHandler(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
 	_, _ = fmt.Fprint(w, `User-agent: *
-Allow: /
-
-Sitemap: `+domain+`/sitemap.xml`)
+Allow: /`)
 }
 
 func SitemapHandler(w http.ResponseWriter, _ *http.Request) {
