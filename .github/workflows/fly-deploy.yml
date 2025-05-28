@@ -1,4 +1,8 @@
 name: "Deploy app to Fly.io"
+
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
   push:
@@ -10,6 +14,7 @@ jobs:
     name: "Deploy app to Fly.io"
     runs-on: ubuntu-24.04-arm
     concurrency: deploy-group
+    timeout-minutes: 5
 
     steps:
       - name: "Checkout code"
