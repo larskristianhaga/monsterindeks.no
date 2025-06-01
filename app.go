@@ -202,6 +202,7 @@ func loggingMiddleware(next http.HandlerFunc) http.HandlerFunc {
         userAgent := r.Header.Get("User-Agent")
         event := r.URL.Path
 
+	log.SetFlags(0)
 	log.Printf("Request incoming; IP: %s Event: \"%s\" Status: \"%s\" UserAgent:\"%s\"", ip, event, "-", userAgent)
 
         next(w, r)
