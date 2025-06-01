@@ -14,6 +14,7 @@ RUN go build -v -o /run-app .
 
 FROM debian:bookworm-slim
 
-COPY --from=builder /run-app /usr/local/bin/
+EXPOSE 8080
 
+COPY --from=builder /run-app /usr/local/bin/
 CMD ["run-app"]
