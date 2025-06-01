@@ -30,13 +30,13 @@ func main() {
 	}
 	log.Println("App live and listening on port:", port)
 
-	http.HandleFunc("/", RootHandler)
-	http.HandleFunc("/insert-latest-monster-price", InsertLatestMonsterPriceHandler)
-	http.HandleFunc("/get-latest-monster-price", GetLatestMonsterPriceHandler)
-	http.HandleFunc("/get-raw-data", GetRawDataHandler)
-	http.HandleFunc("/health", HealthHandler)
-	http.HandleFunc("/robots.txt", RobotsHandler)
-	http.HandleFunc("/sitemap.xml", SitemapHandler)
+	http.HandleFunc("/", loggingMiddleware(RootHandler))
+	http.HandleFunc("/insert-latest-monster-price", loggingMiddleware(InsertLatestMonsterPriceHandler))
+	http.HandleFunc("/get-latest-monster-price", loggingMiddleware(GetLatestMonsterPriceHandler))
+	http.HandleFunc("/get-raw-data", loggingMiddleware(GetRawDataHandler))
+	http.HandleFunc("/health", loggingMiddleware(HealthHandler))
+	http.HandleFunc("/robots.txt", loggingMiddleware(RobotsHandler))
+	http.HandleFunc("/sitemap.xml", loggingMiddleware(SitemapHandler))
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
@@ -187,4 +187,23 @@ func SitemapHandler(w http.ResponseWriter, _ *http.Request) {
         <loc>`+domain+`</loc>
     </url>
 </urlset>`)
+}
+
+func loggingMiddleware(next http.HandlerFunc) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        ip := r.Header.Get("X-Forwarded-For")
+        if ip == "" {
+            ip = r.Header.Get("X-Real-IP")
+        }
+        if ip == "" {
+            ip = r.RemoteAddr
+        }
+
+        userAgent := r.Header.Get("User-Agent")
+        event := r.URL.Path
+
+	log.Printf("Request incoming; IP: %s Event: \"%s\" Status: \"%s\" UserAgent:\"%s\"", remoteAddr, request, status, httpUserAgent)
+
+        next(w, r)
+    }
 }
