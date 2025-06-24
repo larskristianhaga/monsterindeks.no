@@ -37,6 +37,7 @@ func main() {
 	http.HandleFunc("/health", loggingMiddleware(HealthHandler))
 	http.HandleFunc("/robots.txt", loggingMiddleware(RobotsHandler))
 	http.HandleFunc("/sitemap.xml", loggingMiddleware(SitemapHandler))
+	http.HandleFunc("/.well-known/security.txt", loggingMiddleware(SecurityHandler))
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
@@ -187,6 +188,13 @@ func SitemapHandler(w http.ResponseWriter, _ *http.Request) {
         <loc>`+domain+`</loc>
     </url>
 </urlset>`)
+}
+
+func SecurityHandler(w http.ResponseWriter, _ *http.Request) {
+	_, _ = fmt.Fprint(w, `Contact: mailto:larskhaga@gmail.com
+Expires: 2030-12-31T22:59:00.000Z
+Canonical: https://monsterindeks.no/.well-known/security.txt
+`)
 }
 
 func loggingMiddleware(next http.HandlerFunc) http.HandlerFunc {
