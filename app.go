@@ -191,7 +191,7 @@ func SitemapHandler(w http.ResponseWriter, _ *http.Request) {
 }
 
 func SecurityHandler(w http.ResponseWriter, _ *http.Request) {
-	_, _ = fmt.Fprint(w, `Contact: mailto:larskhaga@gmail.com
+	_, _ = fmt.Fprint(w, `Contact: mailto:larskristianhaga@protonmail.com
 Expires: 2030-12-31T23:59:00.000Z
 Canonical: https://monsterindeks.no/.well-known/security.txt
 `)
