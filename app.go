@@ -127,7 +127,7 @@ func GetRawDataHandler(w http.ResponseWriter, _ *http.Request) {
 }
 
 func getMonsterData() Monster {
-	odaMonsterEndpoint := "https://oda.com/tienda-web-api/v1/products/23300/"
+	odaMonsterEndpoint := "https://oda.com/api/v1/products/23300/"
 
 	client := createInsecureHTTPClient()
 
