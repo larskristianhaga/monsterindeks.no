@@ -28,6 +28,7 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
+	CreateTableIfNotExists()
 	log.Println("App live and listening on port:", port)
 
 	http.HandleFunc("/", loggingMiddleware(RootHandler))
@@ -155,12 +156,28 @@ type Monster struct {
 }
 
 func OpenDatabase() *sql.DB {
-	db, err := sql.Open("sqlite3", "/data/monsterdatabase.db")
+	databasePath := os.Getenv("DATABASE_PATH")
+	if databasePath == "" {
+		databasePath = "/data/monsterdatabase.db"
+	}
+
+	db, err := sql.Open("sqlite3", databasePath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	return db
+}
+
+// Matches the schema in production, so a fresh local database works out of the box
+func CreateTableIfNotExists() {
+	db := OpenDatabase()
+	defer db.Close()
+
+	_, err := db.Exec(`CREATE TABLE IF NOT EXISTS monsters ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"gross_price" INTEGER,"gross_price_normalised" TEXT, "created_at" DATETIME DEFAULT CURRENT_TIMESTAMP)`)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func createInsecureHTTPClient() *http.Client {
