@@ -20,6 +20,12 @@ docker run -it --rm -p 8080:8080 -v "$PWD/data:/data" $(docker build -q .)
 
 The SQLite database and the `monsters` table are created on startup if they don't exist. Visit `/insert-latest-monster-price` to add today's price.
 
+To fill a local database with ~180 days of mock prices (replaces any existing rows):
+
+```bash
+sqlite3 monsterdatabase.db < scripts/seed.sql
+```
+
 ## Hosting
 
 The app runs on [Fly.io](https://fly.io) with the SQLite database on a volume mounted at `/data`. Volumes are local to one machine, so the app must run on exactly one machine:
