@@ -45,6 +45,7 @@ func main() {
 
 func RootHandler(w http.ResponseWriter, _ *http.Request) {
 	db := OpenDatabase()
+	defer db.Close()
 
 	rows, err := db.Query("SELECT id, gross_price, gross_price_normalised, created_at FROM monsters ORDER BY created_at DESC")
 	if err != nil {
@@ -86,6 +87,7 @@ func InsertLatestMonsterPriceHandler(w http.ResponseWriter, _ *http.Request) {
 	monsterPrice := getMonsterData().GrossPrice
 	monsterPriceNormalised := ConvertPriceToNormalisedInteger(monsterPrice)
 	db := OpenDatabase()
+	defer db.Close()
 
 	log.Println("Inserting monster price into database")
 	_, err := db.Exec("INSERT INTO monsters (gross_price, gross_price_normalised) VALUES (?, ?)", monsterPrice, monsterPriceNormalised)
@@ -105,6 +107,7 @@ func GetLatestMonsterPriceHandler(w http.ResponseWriter, _ *http.Request) {
 
 func GetRawDataHandler(w http.ResponseWriter, _ *http.Request) {
 	db := OpenDatabase()
+	defer db.Close()
 
 	rows, err := db.Query("SELECT id, gross_price, gross_price_normalised, created_at FROM monsters ORDER BY created_at DESC")
 	if err != nil {
