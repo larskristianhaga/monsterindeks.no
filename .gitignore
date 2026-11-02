@@ -23,3 +23,8 @@ go.work.sum
 
 # Mac directories
 .DS_Store
+
+# Local SQLite databases and backups
+data/
+db-backups/
+*.db

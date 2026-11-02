@@ -1,9 +1,10 @@
 app = 'monsterindeks'
-primary_region = 'ams'
+primary_region = 'arn'
 
 [env]
   PORT = '8080'
 
+# SQLite on a local volume: run exactly one machine (fly scale count 1), or the data splits between volumes.
 [[mounts]]
   source = 'monsterdatabase'
   destination = '/data'

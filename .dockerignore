@@ -1,3 +1,6 @@
 .idea/
 
 fly.toml
+data/
+db-backups/
+*.db
